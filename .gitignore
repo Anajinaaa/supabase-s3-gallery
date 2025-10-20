@@ -1,0 +1,6 @@
+# Dependency folders
+/node_modules
+/dist
+
+# Security & Secrets (CRITICAL for your assignment)
+.env
