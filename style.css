@@ -1,0 +1,279 @@
+/* src/style.css — Styles for combined layout (bucket, upload, gallery) */
+:root {
+  --bg-dark: #111827;
+  --panel-bg: #1f2937;
+  --border-color: #374151;
+  --text-light: #d1d5db;
+  --text-muted: #9ca3af;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --secondary: #10b981;
+  --secondary-hover: #34d399;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* --- Layout (Two-Column Responsive) --- */
+.main-layout {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.left-panel {
+  width: 400px; /* Fixed width for controls */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.right-panel {
+  flex-grow: 1; /* Takes up remaining space */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header & sections */
+header h1 { font-size: 2rem; color: #fff; }
+header p { color: var(--text-muted); font-size: 1rem; }
+
+h2 {
+  color: #fff;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1.125rem;
+}
+
+.control-box {
+  background-color: var(--panel-bg);
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- Form & Buttons --- */
+input[type="text"], select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-light);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.input-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.input-group select { flex-grow: 1; margin: 0; }
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover { transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+
+#createBucketBtn,
+#uploadBtn,
+#loadGalleryBtn {
+  background-color: var(--primary);
+  margin-top: 0;
+}
+#createBucketBtn:hover,
+#uploadBtn:hover,
+#loadGalleryBtn:hover {
+  background-color: var(--primary-hover);
+}
+
+#selectFileBtn {
+  background-color: var(--secondary);
+  width: auto;
+  padding: 0.5rem 1rem;
+  margin-top: 0.75rem;
+}
+#selectFileBtn:hover { background-color: var(--secondary-hover); }
+
+.status-message {
+  min-height: 1.2rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Yellow link styling */
+.studio-link {
+  color: #facc15;
+  text-decoration: underline;
+}
+.studio-link:hover {
+  text-decoration: none;
+}
+
+/* Drag & Drop zone */
+.drop-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.drop-zone p { color: var(--text-muted); }
+.drop-zone span {
+  display: block;
+  margin: 0.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.drop-zone:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+}
+
+.drop-zone.drag-over {
+  background-color: rgba(59,130,246,0.08);
+  border-color: var(--primary);
+}
+
+/* --- Gallery Grid --- */
+.image-gallery {
+  display: grid;
+  /* 4 columns with constant 1rem gaps */
+  grid-template-columns: repeat(auto-fill, minmax(calc((100% - 3rem) / 4), 1fr));
+  gap: 1rem; /* Constant gap */
+  margin-top: 1rem;
+}
+
+.gallery-item {
+  aspect-ratio: 1 / 1; /* Square aspect ratio for thumbnails */
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-message {
+  grid-column: 1 / -1; /* Center across all columns */
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+/* --- Lightbox Overlay --- */
+.lightbox {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9); /* Dark background with opacity */
+  backdrop-filter: blur(5px);
+  padding-top: 60px;
+}
+
+.lightbox-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+#lightboxCaption {
+  margin: 10px auto 0 auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* --- Responsive adjustments for two-column layout --- */
+@media (max-width: 900px) {
+  .main-layout {
+    flex-direction: column; /* Stack columns */
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .left-panel {
+    width: 100%; /* Left panel takes full width when stacked */
+  }
+  .image-gallery {
+    /* Adjust grid for smaller screens, maybe 2 or 3 columns */
+    grid-template-columns: repeat(auto-fill, minmax(calc((100% - 2rem) / 3), 1fr));
+    gap: 0.75rem;
+  }
+} 
+
+
